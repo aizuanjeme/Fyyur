@@ -16,7 +16,7 @@ from flask_migrate import Migrate
 from models.db import db
 from models.venueModel import Venue
 from models.artistModel import Artist
-
+from models.showModel import Show
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#

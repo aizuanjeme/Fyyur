@@ -3,22 +3,36 @@
 {% block content %}
   <div class="form-wrapper">
     <form method="post" class="form">
-      <h3 class="form-heading">List a new show</h3>
+      {{ form.csrf_token }}
+      <h3 class="form-heading">List a new show <a href="{{ url_for('index') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
       <div class="form-group">
         <label for="artist_id">Artist ID</label>
-        <small>ID can be found on the Artist's Page</small>
-        {{ form.artist_id(class_ = 'form-control', autofocus = true) }}
+        <!-- <small>ID can be found on the Artist's Page</small>
+        {{ form.artist_id(class_ = 'form-control', autofocus = true) }} -->
+
+        <select class="form-control" name=artist_id method="GET" action="/shows/create">
+          <option value="">Select the Artist</option>
+          {% for artist in artists %}
+          <option value= "{{artist.id}}" >{{artist.name}}</option>"
+          {% endfor %}
+      </select>
       </div>
       <div class="form-group">
         <label for="venue_id">Venue ID</label>
-        <small>ID can be found on the Venue's Page</small>
-        {{ form.venue_id(class_ = 'form-control', autofocus = true) }}
+        <!-- <small>ID can be found on the Venue's Page</small>
+        {{ form.venue_id(class_ = 'form-control', autofocus = true) }} -->
+        <select class="form-control" name=venue_id method="GET" action="/shows/create">
+          <option value="">Select the Venue</option>
+          {% for venue in venues %}
+          <option value= "{{venue.id}}" >{{venue.name}}</option>"
+          {% endfor %}
+      </select>
       </div>
       <div class="form-group">
           <label for="start_time">Start Time</label>
           {{ form.start_time(class_ = 'form-control', placeholder='YYYY-MM-DD HH:MM', autofocus = true) }}
         </div>
-      <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">
+      <input type="submit" value="Create Show" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>
 {% endblock %}

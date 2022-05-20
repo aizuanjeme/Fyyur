@@ -88,27 +88,6 @@ def venues():
         location["venues"] = grouped_venues
         data.append(location)
     
-    # data = [{
-    #     "city": "San Francisco",
-    #     "state": "CA",
-    #     "venues": [{
-    #         "id": 1,
-    #         "name": "The Musical Hop",
-    #         "num_upcoming_shows": 0,
-    #     }, {
-    #         "id": 3,
-    #         "name": "Park Square Live Music & Coffee",
-    #         "num_upcoming_shows": 1,
-    #     }]
-    # }, {
-    #     "city": "New York",
-    #     "state": "NY",
-    #     "venues": [{
-    #         "id": 2,
-    #         "name": "The Dueling Pianos Bar",
-    #         "num_upcoming_shows": 0,
-    #     }]
-    # }]
     return render_template('pages/venues.html', areas=data)
 
 
@@ -507,42 +486,6 @@ def create_artist_submission():
 def shows():
     # displays list of shows at /shows
     # TODO: replace with real venues data.
-    # data = [{
-    #     "venue_id": 1,
-    #     "venue_name": "The Musical Hop",
-    #     "artist_id": 4,
-    #     "artist_name": "Guns N Petals",
-    #     "artist_image_link": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
-    #     "start_time": "2019-05-21T21:30:00.000Z"
-    # }, {
-    #     "venue_id": 3,
-    #     "venue_name": "Park Square Live Music & Coffee",
-    #     "artist_id": 5,
-    #     "artist_name": "Matt Quevedo",
-    #     "artist_image_link": "https://images.unsplash.com/photo-1495223153807-b916f75de8c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
-    #     "start_time": "2019-06-15T23:00:00.000Z"
-    # }, {
-    #     "venue_id": 3,
-    #     "venue_name": "Park Square Live Music & Coffee",
-    #     "artist_id": 6,
-    #     "artist_name": "The Wild Sax Band",
-    #     "artist_image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
-    #     "start_time": "2035-04-01T20:00:00.000Z"
-    # }, {
-    #     "venue_id": 3,
-    #     "venue_name": "Park Square Live Music & Coffee",
-    #     "artist_id": 6,
-    #     "artist_name": "The Wild Sax Band",
-    #     "artist_image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
-    #     "start_time": "2035-04-08T20:00:00.000Z"
-    # }, {
-    #     "venue_id": 3,
-    #     "venue_name": "Park Square Live Music & Coffee",
-    #     "artist_id": 6,
-    #     "artist_name": "The Wild Sax Band",
-    #     "artist_image_link": "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
-    #     "start_time": "2035-04-15T20:00:00.000Z"
-    # }]
     data = []
     shows = Show.query.all()
     for show in shows:
@@ -551,7 +494,7 @@ def shows():
         "venue_name": show.venue.name,
         "artist_id": show.artist_id,
         "artist_name": show.artist.name,
-        "artist_image_link": show.artist.image_link if show.artist.image_link=="" else "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
+        "artist_image_link": show.artist.image_link if show.artist.image_link=="" else "https://www.emergingedtech.com/wp/wp-content/uploads/2017/04/Music.jpg",
         "start_time": show.start_time.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
       })
     return render_template('pages/shows.html', shows=data)

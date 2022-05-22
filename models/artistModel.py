@@ -19,6 +19,7 @@ class Artist(db.Model):
     seeking_venue = db.Column(db.Boolean, nullable=False, default=False)
     seeking_description = db.Column(db.String())
     available = db.Column(db.Boolean, nullable=False, default=False)
+    created_by = db.Column(db.DateTime, nullable = False)
     shows = db.relationship('Show', backref='artist')
 
     def __repr__(self) -> str:

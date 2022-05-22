@@ -16,6 +16,7 @@ class Venue(db.Model):
     website_link = db.Column(db.String(120))
     seeking_talent = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String())
+    created_by = db.Column(db.DateTime, nullable = False)
     shows = db.relationship('Show', backref='venue')
 
     def __repr__(self) -> str:

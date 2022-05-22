@@ -126,6 +126,11 @@ class VenueForm(FlaskForm ):
     seeking_description = StringField(
         'seeking_description'
     )
+    created_by = DateTimeField(
+        'created_by',
+        validators=[DataRequired()],
+        default= datetime.today()
+    )
 
 
 
@@ -238,5 +243,10 @@ class ArtistForm(FlaskForm ):
             'seeking_description'
      )
     available = BooleanField( 'available' )
+    created_by = DateTimeField(
+        'created_by',
+        validators=[DataRequired()],
+        default= datetime.today()
+    )
 
 

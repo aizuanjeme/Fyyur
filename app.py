@@ -61,7 +61,9 @@ app.jinja_env.filters['datetime'] = format_datetime
 
 @app.route('/')
 def index():
-    return render_template('pages/home.html')
+    venue = db.session.query(Venue).order_by(db.desc('created_by')).limit(10)
+    artist = db.session.query(Artist).order_by(db.desc('created_by')).limit(10)
+    return render_template('pages/home.html', venues=venue, artists=artist)
 
 
 #  Venues
@@ -224,6 +226,7 @@ def create_venue_submission():
             website_link=form.website_link.data,
             seeking_talent=form.seeking_talent.data,
             seeking_description=form.seeking_description.data,
+            created_by=form.created_by.data
         )
         try:
             db.session.add(new_venue)
@@ -427,6 +430,7 @@ def create_artist_submission():
             seeking_venue=form.seeking_venue.data,
             seeking_description=form.seeking_description.data,
             available=form.available.data,
+            created_by=form.created_by.data
         )
         try:
             db.session.add(new_artist)

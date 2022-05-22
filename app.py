@@ -3,6 +3,7 @@
 #----------------------------------------------------------------------------#
 
 import json
+from zoneinfo import available_timezones
 import dateutil.parser
 import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
@@ -425,6 +426,7 @@ def create_artist_submission():
             image_link=form.image_link.data,
             seeking_venue=form.seeking_venue.data,
             seeking_description=form.seeking_description.data,
+            available=form.available.data,
         )
         try:
             db.session.add(new_artist)
@@ -474,7 +476,7 @@ def create_shows():
     # renders form. do not touch.
     form = ShowForm()
     venue = Venue.query.all()
-    artist = Artist.query.all()
+    artist = db.session.query(Artist).filter(Artist.available == True)
     return render_template('forms/new_show.html', form=form, venues=venue, artists=artist)
 
 

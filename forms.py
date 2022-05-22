@@ -1,4 +1,5 @@
 from datetime import datetime
+from zoneinfo import available_timezones
 from flask_wtf import FlaskForm 
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField
 from wtforms.validators import DataRequired, AnyOf, URL
@@ -236,4 +237,6 @@ class ArtistForm(FlaskForm ):
     seeking_description = StringField(
             'seeking_description'
      )
+    available = BooleanField( 'available' )
+
 

@@ -6,12 +6,12 @@
       {{ form.csrf_token }}
       <h3 class="form-heading">List a new show <a href="{{ url_for('index') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
       <div class="form-group">
-        <label for="artist_id">Artist ID</label>
+        <label for="artist_id">Available Artist ID</label>
         <!-- <small>ID can be found on the Artist's Page</small>
         {{ form.artist_id(class_ = 'form-control', autofocus = true) }} -->
 
         <select class="form-control" name=artist_id method="GET" action="/shows/create">
-          <option value="">Select the Artist</option>
+          <option value="">Select the Available Artist</option>
           {% for artist in artists %}
           <option value= "{{artist.id}}" >{{artist.name}}</option>"
           {% endfor %}

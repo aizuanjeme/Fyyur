@@ -329,22 +329,21 @@ def edit_artist(artist_id):
 def edit_artist_submission(artist_id):
     # TODO: take values from the form submitted, and update existing
     # artist record with ID <artist_id> using the new attributes
-    form = ArtistForm(request.form)
-    if form.validate_on_submit():        
-        try:
-            edited_artist = Artist.query.get(artist_id)
-            edited_artist.name = form.name.data
-            edited_artist.city = form.city.data
-            edited_artist.state = form.state.data
-            edited_artist.phone = form.phone.data
-            edited_artist.facebook_link = form.facebook_link.data
-            edited_artist.genres = ','.join(form.genres.data)
-            edited_artist.website_link = form.website_link.data
-            edited_artist.image_link = form.image_link.data
-            edited_artist.seeking_venue = form.seeking_venue.data
-            edited_artist.seeking_description = form.seeking_description.data
-            edited_artist.available = form.available.data
-            
+    form = ArtistForm()
+    if form.validate_on_submit():
+        edited_artist = Artist.query.get(artist_id)
+        edited_artist.name = form.name.data
+        edited_artist.city = form.city.data
+        edited_artist.state = form.state.data
+        edited_artist.phone = form.phone.data
+        edited_artist.facebook_link = form.facebook_link.data
+        edited_artist.genres = ','.join(form.genres.data)
+        edited_artist.website_link = form.website_link.data
+        edited_artist.image_link = form.image_link.data
+        edited_artist.seeking_venue = form.seeking_venue.data
+        edited_artist.seeking_description = form.seeking_description.data
+        edited_artist.available = form.available.data     
+        try:           
             db.session.commit()
             flash('Artist ' + edited_artist.name + ' was successfully edited!')
         except:

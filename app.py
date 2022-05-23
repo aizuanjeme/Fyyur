@@ -3,7 +3,6 @@
 #----------------------------------------------------------------------------#
 
 import json
-from zoneinfo import available_timezones
 import dateutil.parser
 import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
@@ -123,7 +122,7 @@ def show_venue(venue_id):
       past_shows.append({
         "artist_id": show.artist_id,
         "artist_name": show.artist.name,
-        "artist_image_link": show.artist.image_link,
+        "artist_image_link": show.artist.image_link if show.artist.image_link!="" else "https://www.emergingedtech.com/wp/wp-content/uploads/2017/04/Music.jpg",
         "start_time": show.start_time.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
       })
       
@@ -133,7 +132,7 @@ def show_venue(venue_id):
       upcoming_shows.append({
         "artist_id": show.artist_id,
         "artist_name": show.artist.name,
-        "artist_image_link": show.artist.image_link,
+        "artist_image_link": show.artist.image_link if show.artist.image_link!="" else "https://www.emergingedtech.com/wp/wp-content/uploads/2017/04/Music.jpg",
         "start_time": show.start_time.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
       })
       
@@ -149,7 +148,7 @@ def show_venue(venue_id):
         "facebook_link": venue.facebook_link,
         "seeking_talent": venue.seeking_talent,
         "seeking_description": venue.seeking_description,
-        "image_link": venue.image_link,
+        "image_link": venue.image_link if venue.image_link!="" else "https://www.emergingedtech.com/wp/wp-content/uploads/2017/04/Music.jpg",
         "past_shows": past_shows,
         "upcoming_shows": upcoming_shows,
         "past_shows_count": len(past_shows),
@@ -266,7 +265,7 @@ def show_artist(artist_id):
       past_shows.append({
         "venue_id": show.venue_id,
         "venue_name": show.venue.name,
-        "venue_image_link": show.venue.image_link,
+        "venue_image_link": show.venue.image_link if show.venue.image_link!="" else "https://www.emergingedtech.com/wp/wp-content/uploads/2017/04/Music.jpg",
         "start_time": show.start_time.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
       })
       
@@ -276,7 +275,7 @@ def show_artist(artist_id):
       upcoming_shows.append({
         "venue_id": show.venue_id,
         "venue_name": show.venue.name,
-        "venue_image_link": show.venue.image_link,
+        "venue_image_link": show.venue.image_link if show.venue.image_link!="" else "https://www.emergingedtech.com/wp/wp-content/uploads/2017/04/Music.jpg",
         "start_time": show.start_time.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
       })
       
@@ -293,7 +292,7 @@ def show_artist(artist_id):
         "facebook_link": artist.facebook_link,
         "seeking_venue": artist.seeking_venue,
         "seeking_description": artist.seeking_description,
-        "image_link": artist.image_link,
+        "image_link": artist.image_link if artist.image_link!="" else "https://www.emergingedtech.com/wp/wp-content/uploads/2017/04/Music.jpg",
         "past_shows": past_shows,
         "upcoming_shows": upcoming_shows,
         "past_shows_count": len(past_shows),
@@ -308,19 +307,20 @@ def show_artist(artist_id):
 @app.route('/artists/<int:artist_id>/edit', methods=['GET'])
 def edit_artist(artist_id):
     form = ArtistForm()
-    artist = {
-        "id": 4,
-        "name": "Guns N Petals",
-        "genres": ["Rock n Roll"],
-        "city": "San Francisco",
-        "state": "CA",
-        "phone": "326-123-5000",
-        "website": "https://www.gunsnpetalsband.com",
-        "facebook_link": "https://www.facebook.com/GunsNPetals",
-        "seeking_venue": True,
-        "seeking_description": "Looking for shows to perform at in the San Francisco Bay Area!",
-        "image_link": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"
-    }
+    artist = Artist.query.get(artist_id)
+    if artist: 
+        form.name.data = artist.name,
+        form.city.data = artist.city,
+        form.state.data = artist.state,
+        form.phone.data = artist.phone,
+        form.facebook_link.data = artist.facebook_link,
+        form.genres.data = artist.genres.split(','),
+        form.website_link.data = artist.website_link,
+        form.image_link.data = artist.image_link,
+        form.seeking_venue.data = artist.seeking_venue,
+        form.seeking_description.data = artist.seeking_description,
+        form.available.data = artist.available,
+    
     # TODO: populate form with fields from artist with ID <artist_id>
     return render_template('forms/edit_artist.html', form=form, artist=artist)
 
@@ -329,6 +329,32 @@ def edit_artist(artist_id):
 def edit_artist_submission(artist_id):
     # TODO: take values from the form submitted, and update existing
     # artist record with ID <artist_id> using the new attributes
+    form = ArtistForm(request.form)
+    if form.validate_on_submit():        
+        try:
+            edited_artist = Artist.query.get(artist_id)
+            edited_artist.name = form.name.data
+            edited_artist.city = form.city.data
+            edited_artist.state = form.state.data
+            edited_artist.phone = form.phone.data
+            edited_artist.facebook_link = form.facebook_link.data
+            edited_artist.genres = ','.join(form.genres.data)
+            edited_artist.website_link = form.website_link.data
+            edited_artist.image_link = form.image_link.data
+            edited_artist.seeking_venue = form.seeking_venue.data
+            edited_artist.seeking_description = form.seeking_description.data
+            edited_artist.available = form.available.data
+            
+            db.session.commit()
+            flash('Artist ' + edited_artist.name + ' was successfully edited!')
+        except:
+            db.session.rollback()
+            flash('Artist ' + form.name.data + ' was not successfully edited!')
+        finally:
+            db.session.close()
+    else:
+        for error_message in form.errors.values():
+            flash(f'An error occurred on {error_message[0]}, Artist ' + request.form['name'] + ' could not be listed.')
 
     return redirect(url_for('show_artist', artist_id=artist_id))
 

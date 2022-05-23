@@ -1,9 +1,13 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Fyyur | Venues{% endblock %}
+
 {% block content %}
+
 {% for area in areas %}
 <h3>{{ area.city }}, {{ area.state }}</h3>
 	<ul class="items">
+		<div class="hidden" id="error"> Something went wrong! </div>
+
 		{% for venue in area.venues %}
 		<li>
 			<a href="/venues/{{ venue.id }}">
@@ -12,8 +16,31 @@
 					<h5>{{ venue.name }}</h5>
 				</div>
 			</a>
+			<button class="delete-list" data-id="{{ venue.id }}" >&cross;</button>
 		</li>
 		{% endfor %}
 	</ul>
+
+	<script>
+		const deletebuttons = document.querySelectorAll('.delete-list')
+		 for (let i = 0; i < deletebuttons.length; i++) {
+		   const deletebutton = deletebuttons[i];
+		   deletebutton.onclick = function (e) {
+			 console.log('event', e);
+			 const venueId = e.target.dataset['id'];
+			 fetch('/venues/' + venueId, {
+			   method: 'DELETE'
+			 })
+			   .then(function () {
+				 document.getElementById('error').className = 'hidden';
+			   })
+			   .catch(function () {
+				 document.getElementById('error').className = '';
+			   })
+		   }
+		 }
+   
+   </script>
 {% endfor %}
 {% endblock %}
+

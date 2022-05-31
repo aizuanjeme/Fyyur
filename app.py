@@ -17,8 +17,6 @@ from models.db import db
 from models.venueModel import Venue
 from models.artistModel import Artist
 from models.showModel import Show
-from routes.show import show
-from routes import *
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -215,6 +213,10 @@ def delete_venue(venue_id):
     # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
     # clicking that button delete it from the db then redirect the user to the homepage
     try:
+        show = db.session.query(Show).filter(Show.venue_id == venue_id)
+        # db.session.delete(show)
+        # show.pop()
+        Show.query.filter_by(venue_id=venue_id).delete()
         venue = Venue.query.get(venue_id)
         db.session.delete(venue)
         db.session.commit()

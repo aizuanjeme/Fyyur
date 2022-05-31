@@ -17,6 +17,8 @@
 				</div>
 			</a>
 			<button class="delete-list" data-id="{{ venue.id }}" >&cross;</button>
+			<!-- <button class="delete-list" method="del" action="/venues/{{ venue.id }}/delete" >&cross;</button> -->
+
 		</li>
 		{% endfor %}
 	</ul>
@@ -32,6 +34,7 @@
 			   method: 'DELETE'
 			 })
 			   .then(function () {
+				 window.location.href = '/venues'
 				 document.getElementById('error').className = 'hidden';
 			   })
 			   .catch(function () {

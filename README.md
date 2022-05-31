@@ -65,11 +65,18 @@ npm install bootstrap@3
   │   ├── ico
   │   ├── img
   │   └── js
+  ├── models
+  |   ├──artistModel.py
+  |   ├──db.py
+  |   ├──showModel.py
+  |   └──venueModel.py
+  |
   └── templates
       ├── errors
       ├── forms
       ├── layouts
       └── pages
+  
   ```
 
 Overall:

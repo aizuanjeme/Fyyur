@@ -2,7 +2,44 @@
 {% block title %}Fyyur | Venues{% endblock %}
 
 {% block content %}
+<style>
+    /* .hidden {
+      display: none;
+    } */
 
+    ul {
+      list-style: none;
+      /* padding: 0;
+      margin: 1; */
+      width: 400px;
+    }
+
+    /* li {
+      clear: both;
+    }
+ */
+    li button {
+      -webkit-appearance: none;
+      border: none;
+      outline: none;
+      color: red;
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    /* .lists-wrapper,
+    .todos-wrapper {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    a {
+      color: blue;
+      text-decoration: none;
+      /* no underline */
+    /* } */
+  </style>
 {% for area in areas %}
 <h3>{{ area.city }}, {{ area.state }}</h3>
 	<ul class="items">

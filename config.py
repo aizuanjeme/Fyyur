@@ -1,10 +1,16 @@
 import os
 SECRET_KEY = os.urandom(32)
+# SECRET_KEY = os.getenv('SECRET_KEY')
+
 # Grabs the folder where the script runs.
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Enable debug mode.
 DEBUG = True
+
+WTF_CSRF_SECRET_KEY = os.getenv('stephanie')
+
+WTF_CSRF_ENABLED = False
 
 # Connect to the database
 

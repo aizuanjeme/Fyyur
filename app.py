@@ -26,6 +26,8 @@ moment = Moment(app)
 app.config.from_object('config')
 
 db.init_app(app)
+with app.app_context():
+    db.create_all()
 migrate = Migrate(app, db)
 # app.register_blueprint(routes)
 

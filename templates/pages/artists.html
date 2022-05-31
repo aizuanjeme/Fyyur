@@ -1,6 +1,48 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Fyyur | Artists{% endblock %}
 {% block content %}
+<style>
+    /* .hidden {
+      display: none;
+    } */
+
+    ul {
+      list-style: none;
+      /* padding: 0;
+      margin: 1; */
+      width: 400px;
+    }
+
+    li {
+		display: flex;
+        justify-content: space-between
+    }
+ 
+    li button {
+      -webkit-appearance: none;
+      border: none;
+      outline: none;
+      color: red;
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    /* .lists-wrapper,
+    .todos-wrapper {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    a {
+      color: blue;
+      text-decoration: none;
+      /* no underline */
+    /* } */
+  </style>
+<h3 class="text-right">
+	<a href="/artists/create"><button class="btn btn-default btn-lg">Post an artist</button></a>
+</h3>
 <ul class="items">
 	{% for artist in artists %}
 	<li>
@@ -10,7 +52,30 @@
 				<h5>{{ artist.name }}</h5>
 			</div>
 		</a>
+		<button class="delete-list" data-id="{{ artist.id }}" >&cross;</button>
 	</li>
 	{% endfor %}
 </ul>
+
+<script>
+	const deletebuttons = document.querySelectorAll('.delete-list')
+	 for (let i = 0; i < deletebuttons.length; i++) {
+	   const deletebutton = deletebuttons[i];
+	   deletebutton.onclick = function (e) {
+		 console.log('event', e);
+		 const artistId = e.target.dataset['id'];
+		 fetch('/artist/' + artistId, {
+		   method: 'DELETE'
+		 })
+		   .then(function () {
+			 window.location.href = '/artists'
+			 document.getElementById('error').className = 'hidden';
+		   })
+		   .catch(function () {
+			 document.getElementById('error').className = '';
+		   })
+	   }
+	 }
+
+</script>
 {% endblock %}

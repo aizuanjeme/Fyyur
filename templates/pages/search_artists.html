@@ -1,6 +1,9 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Fyyur | Artists Search{% endblock %}
 {% block content %}
+<h3 class="text-right">
+	<a href="/artists"><button class="btn btn-default btn-lg">Back</button></a>
+</h3>
 <h3>Number of search results for "{{ search_term }}": {{ results.count }}</h3>
 <ul class="items">
 	{% for artist in results.data %}

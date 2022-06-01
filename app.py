@@ -102,7 +102,7 @@ def search_venues():
     # seach for Hop should return "The Musical Hop".
     # search for "Music" should return "The Musical Hop" and "Park Square Live Music & Coffee"
     search = '%' + request.form['search_term'] + '%'
-    venues = Venue.query.filter(Venue.name.ilike(search))
+    venues = Venue.query.filter(Venue.name.ilike(search)| Venue.city.ilike(search)| Venue.state.ilike(search))
     response={
        "count": venues.count(),
        "data": venues
@@ -242,7 +242,7 @@ def search_artists():
     # seach for "A" should return "Guns N Petals", "Matt Quevado", and "The Wild Sax Band".
     # search for "band" should return "The Wild Sax Band".
     search = '%' + request.form['search_term'] + '%'
-    artists = Artist.query.filter(Artist.name.ilike(search))
+    artists = Artist.query.filter(Artist.name.ilike(search) | Artist.city.ilike(search)| Artist.state.ilike(search))
     response={
        "count": artists.count(),
        "data": artists
